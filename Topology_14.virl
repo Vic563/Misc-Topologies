@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.9" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.9/virl.xsd">
+    <node name="iosv-1" type="SIMPLE" subtype="IOSv" location="130,183"/>
+    <node name="iosv-2" type="SIMPLE" subtype="IOSv" location="481,233"/>
+    <node name="iosv-3" type="SIMPLE" subtype="IOSv" location="294,374"/>
+    <node name="iosv-4" type="SIMPLE" subtype="IOSv" location="372,115"/>
+    <node name="iosv-5" type="SIMPLE" subtype="IOSv" location="775,93"/>
+    <node name="iosv-6" type="SIMPLE" subtype="IOSv" location="637,294"/>
+    <node name="iosv-7" type="SIMPLE" subtype="IOSv" location="204,110"/>
+    <node name="iosv-8" type="SIMPLE" subtype="IOSv" location="636,88"/>
+    <node name="iosv-9" type="SIMPLE" subtype="IOSv" location="551,361"/>
+    <node name="iosv-10" type="SIMPLE" subtype="IOSv" location="748,221"/>
+    <node name="iosv-11" type="SIMPLE" subtype="IOSv" location="132,379"/>
+    <node name="iosv-12" type="SIMPLE" subtype="IOSv" location="90,302"/>
+    <node name="iosv-13" type="SIMPLE" subtype="IOSv" location="408,328"/>
+    <node name="iosv-14" type="SIMPLE" subtype="IOSv" location="316,252"/>
+</topology>

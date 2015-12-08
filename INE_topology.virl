@@ -1,0 +1,1298 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.9" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.9/virl.xsd">
+    <extensions>
+        <entry key="lxc.host.static_ip" type="String">172.16.1.10</entry>
+        <entry key="management_network" type="String">flat</entry>
+    </extensions>
+    <node name="R1" type="SIMPLE" subtype="IOSv" location="402,147">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4001</entry>
+            <entry key="config" type="String">!
+! Last configuration change at 00:15:14 UTC Fri Dec 4 2015
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$RJFn$WLO07UW9SYTaSo9EFnCXP.
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 1.1.1.1 255.0.0.0
+!
+interface Loopback1
+ ip address 11.1.1.1 255.0.0.0
+!
+interface GigabitEthernet0/0
+ ip address dhcp
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1.12
+ encapsulation dot1Q 12
+ ip address 12.1.1.1 255.255.255.0
+!
+interface GigabitEthernet0/1.14
+ encapsulation dot1Q 14
+ ip address 14.1.1.1 255.255.255.0
+!
+router bgp 100
+ bgp log-neighbor-changes
+ network 1.0.0.0
+ network 11.0.0.0
+ neighbor 12.1.1.2 remote-as 200
+ neighbor 12.1.1.2 route-map AS_PREPEND out
+ neighbor 14.1.1.4 remote-as 200
+ neighbor 14.1.1.4 route-map AS_PREPEND2 out
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+ip prefix-list NET1 seq 5 permit 1.0.0.0/8
+!
+route-map AS_PREPEND permit 10
+ match ip address prefix-list NET1
+ set as-path prepend 100
+!
+route-map AS_PREPEND permit 20
+!
+route-map AS_PREPEND2 permit 10
+ match ip address 1
+ set as-path prepend 100
+!
+route-map ASPREPEND2 permit 20
+!
+!
+access-list 1 permit 11.0.0.0 0.255.255.255
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+line aux 0
+line vty 0 4
+ password cisco
+ login
+ transport input telnet
+line vty 5 15
+ password cisco
+ login
+ transport input telnet
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="R2" type="SIMPLE" subtype="IOSv" location="516,167">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4002</entry>
+            <entry key="config" type="String">!
+! Last configuration change at 15:59:12 UTC Thu Dec 3 2015
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$5Dkr$G27t5uORb1ixzUKP0ftKW/
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 2.2.2.2 255.0.0.0
+!
+interface GigabitEthernet0/0
+ ip address dhcp
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1.12
+ encapsulation dot1Q 12
+ ip address 12.1.1.2 255.255.255.0
+!
+interface GigabitEthernet0/1.23
+ encapsulation dot1Q 23
+ ip address 23.1.1.2 255.255.255.0
+!
+router ospf 100
+ network 23.1.1.2 0.0.0.0 area 0
+!
+router bgp 200
+ bgp log-neighbor-changes
+ network 2.0.0.0
+ neighbor 12.1.1.1 remote-as 100
+ neighbor 23.1.1.3 remote-as 200
+ neighbor 23.1.1.3 next-hop-self
+ neighbor 34.1.1.4 remote-as 200
+ neighbor 34.1.1.4 next-hop-self
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+line aux 0
+line vty 0 4
+ password cisco
+ login
+ transport input telnet
+line vty 5 15
+ password cisco
+ login
+ transport input telnet
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="R3" type="SIMPLE" subtype="IOSv" location="676,172">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4003</entry>
+            <entry key="config" type="String">!
+! Last configuration change at 15:59:15 UTC Thu Dec 3 2015
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$EyB3$0YqJLWm8rO16CU1ChfyMc/
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 3.3.3.3 255.0.0.0
+!
+interface GigabitEthernet0/0
+ ip address dhcp
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1.23
+ encapsulation dot1Q 23
+ ip address 23.1.1.3 255.255.255.0
+!
+interface GigabitEthernet0/1.34
+ encapsulation dot1Q 34
+ ip address 34.1.1.3 255.255.255.0
+!
+router ospf 100
+ network 23.1.1.3 0.0.0.0 area 0
+ network 34.1.1.3 0.0.0.0 area 0
+!
+router bgp 200
+ bgp log-neighbor-changes
+ network 3.0.0.0
+ neighbor 23.1.1.2 remote-as 200
+ neighbor 34.1.1.4 remote-as 200
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+line aux 0
+line vty 0 4
+ password cisco
+ login
+ transport input telnet
+line vty 5 15
+ password cisco
+ login
+ transport input telnet
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="R4" type="SIMPLE" subtype="IOSv" location="774,261">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4004</entry>
+            <entry key="config" type="String">!
+! Last configuration change at 15:59:43 UTC Thu Dec 3 2015
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R4
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$2tmC$wZmroRlCqjIphqabVhvRL.
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 4.4.4.4 255.0.0.0
+!
+interface GigabitEthernet0/0
+ ip address dhcp
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1.14
+ encapsulation dot1Q 14
+ ip address 14.1.1.4 255.255.255.0
+!
+interface GigabitEthernet0/1.34
+ encapsulation dot1Q 34
+ ip address 34.1.1.4 255.255.255.0
+!
+router ospf 100
+ network 34.1.1.4 0.0.0.0 area 0
+!
+router bgp 200
+ bgp log-neighbor-changes
+ network 4.0.0.0
+ neighbor 14.1.1.1 remote-as 100
+ neighbor 23.1.1.2 remote-as 200
+ neighbor 23.1.1.2 next-hop-self
+ neighbor 34.1.1.3 remote-as 200
+ neighbor 34.1.1.3 next-hop-self
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+line aux 0
+line vty 0 4
+ password cisco
+ login
+ transport input telnet
+line vty 5 15
+ password cisco
+ login
+ transport input telnet
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="R5" type="SIMPLE" subtype="IOSv" location="810,366">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4005</entry>
+            <entry key="config" type="String">&#xD;
+en&#xD;
+conf t&#xD;
+!&#xD;
+line con 0&#xD;
+logging synchronous &#xD;
+no exec-t&#xD;
+!&#xD;
+no ip domain-loo&#xD;
+alias exec cc conf t&#xD;
+!&#xD;
+int gi0/0&#xD;
+ip add dhcp&#xD;
+no shut&#xD;
+&#xD;
+int gi0/1&#xD;
+no shut&#xD;
+&#xD;
+!&#xD;
+ho R5&#xD;
+!&#xD;
+int lo0&#xD;
+ip addr 1.1.1.5 255.255.255.255&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.15&#xD;
+encap dot 15&#xD;
+ip addr 15.1.1.5 255.255.255.0&#xD;
+no shut&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.25&#xD;
+encap dot 25&#xD;
+ip addr 25.1.1.5 255.255.255.0&#xD;
+no shut&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="R6" type="SIMPLE" subtype="IOSv" location="775,484">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4006</entry>
+            <entry key="config" type="String">!
+! Last configuration change at 15:05:30 UTC Thu Dec 3 2015
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 1.1.1.6 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address dhcp
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1.246
+ encapsulation dot1Q 246
+ ip address 10.1.246.6 255.255.255.0
+ ip load-sharing per-packet
+!
+router bgp 246
+ bgp log-neighbor-changes
+ bgp dmzlink-bw
+ neighbor 10.1.246.2 remote-as 246
+ neighbor 10.1.246.4 remote-as 246
+ maximum-paths ibgp 2
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+alias exec cc conf t
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="R7" type="SIMPLE" subtype="IOSv" location="620,534">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4007</entry>
+            <entry key="config" type="String">&#xD;
+en&#xD;
+conf t&#xD;
+!&#xD;
+line con 0&#xD;
+logging synchronous &#xD;
+no exec-t&#xD;
+!&#xD;
+no ip domain-loo&#xD;
+alias exec cc conf t&#xD;
+int gi0/0&#xD;
+ip add dhcp&#xD;
+no shut&#xD;
+int gi0/1&#xD;
+no shut&#xD;
+&#xD;
+!&#xD;
+ho R7&#xD;
+!&#xD;
+int lo0&#xD;
+ip addr 1.1.1.7 255.255.255.255&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.17&#xD;
+encap dot 17&#xD;
+ip addr 17.1.1.7 255.255.255.0&#xD;
+no shut&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.27&#xD;
+encap dot 27&#xD;
+ip addr 27.1.1.7 255.255.255.0&#xD;
+no shut&#xD;
+!&#xD;
+!&#xD;
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="R8" type="SIMPLE" subtype="IOSv" location="492,522">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4008</entry>
+            <entry key="config" type="String">&#xD;
+en&#xD;
+conf t&#xD;
+!&#xD;
+ho R8&#xD;
+!&#xD;
+int lo0&#xD;
+ip addr 1.1.1.8 255.255.255.255&#xD;
+!&#xD;
+int gi0/0&#xD;
+ip add dhcp&#xD;
+no shut&#xD;
+&#xD;
+&#xD;
+int gi0/1&#xD;
+no shut&#xD;
+&#xD;
+int gi0/1.48&#xD;
+encap dot 48&#xD;
+ip addr 48.1.1.8 255.255.255.0&#xD;
+!&#xD;
+int gi0/1.89&#xD;
+encap dot 89&#xD;
+ip addr 89.1.1.8 255.255.255.0&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+!&#xD;
+line con 0&#xD;
+logging synchronous &#xD;
+no exec-t&#xD;
+!&#xD;
+no ip domain-loo&#xD;
+alias exec cc conf t&#xD;
+!&#xD;
+!&#xD;
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="R9" type="SIMPLE" subtype="IOSv" location="379,515">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4009</entry>
+            <entry key="config" type="String">&#xD;
+en&#xD;
+conf t&#xD;
+!&#xD;
+ho R9&#xD;
+int gi0/0&#xD;
+ip add dhcp&#xD;
+no shut&#xD;
+&#xD;
+int gi0/1&#xD;
+no shut&#xD;
+&#xD;
+int lo0&#xD;
+ip addr 1.1.1.9 255.255.255.255&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.49&#xD;
+encap dot 49&#xD;
+ip addr 49.1.1.9 255.255.255.0&#xD;
+no shut&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.89&#xD;
+encap dot 89&#xD;
+ip addr 89.1.1.9 255.255.255.0&#xD;
+no shu&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+line con 0&#xD;
+logging synchronous &#xD;
+no exec-t&#xD;
+!&#xD;
+no ip domain-loo&#xD;
+alias exec cc conf t&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="R10" type="SIMPLE" subtype="IOSv" location="270,482">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4010</entry>
+            <entry key="config" type="String">hostname R10&#xD;
+&#xD;
+&#xD;int gi0/1&#xD;
+no shut&#xD;
+
+&#xD;
+line con 0&#xD;
+logging sync&#xD;
+&#xD;
+line vty 0 15&#xD;
+transport input telnet&#xD;
+transport output telnet</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="SW1" type="SIMPLE" subtype="IOSv" location="212,439">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4011</entry>
+            <entry key="config" type="String">&#xD;
+en&#xD;
+conf t&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+enable secret cisco&#xD;
+!&#xD;
+line vty 0 15&#xD;
+transport input telnet&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+int gi0/0&#xD;
+ip add dhcp&#xD;
+no shut&#xD;
+&#xD;
+int gi0/1&#xD;
+no shut&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int lo0&#xD;
+ip addr 10.1.1.10 255.0.0.0&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int lo200&#xD;
+ip addr 200.1.1.10 255.255.255.255&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+ho SW1&#xD;
+!&#xD;
+&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.118&#xD;
+encap dot 118&#xD;
+ip addr 118.1.1.10 255.255.255.0&#xD;
+no shu&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.117&#xD;
+encap dot 117&#xD;
+ip addr 117.1.1.10 255.255.255.0&#xD;
+no shut&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.111&#xD;
+encap dot 111&#xD;
+ip addr 111.1.1.10 255.255.255.0&#xD;
+no shut&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="SW2" type="SIMPLE" subtype="IOSv" location="200,358">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4012</entry>
+            <entry key="config" type="String">&#xD;
+en&#xD;
+conf t&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+ho SW2&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+enable secret cisco&#xD;
+!&#xD;
+line vty 0 15&#xD;
+transport input telnet&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+int gi0/0&#xD;
+ip add dhcp&#xD;
+no shut&#xD;
+&#xD;
+int gi0/1&#xD;
+no shut&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int lo0&#xD;
+ip addr 20.1.1.20 255.0.0.0&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int lo200&#xD;
+ip addr 200.1.1.20 255.255.255.255&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.123&#xD;
+encap dot 123&#xD;
+ip addr 123.1.1.20 255.255.255.0&#xD;
+no shu&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.122&#xD;
+encap dot 122&#xD;
+ip addr 122.1.1.20 255.255.255.0&#xD;
+no shu&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="SW3" type="SIMPLE" subtype="IOSv" location="213,263">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4013</entry>
+            <entry key="config" type="String">&#xD;
+en&#xD;
+conf t&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+ho SW3&#xD;
+!&#xD;
+&#xD;
+enable secret cisco&#xD;
+!&#xD;
+line vty 0 15&#xD;
+transport input telnet&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+int gi0/0&#xD;
+ip add dhcp&#xD;
+no shut&#xD;
+&#xD;
+int gi0/1&#xD;
+no shut&#xD;
+!&#xD;
+!&#xD;
+int lo0&#xD;
+ip addr 30.1.1.30 255.0.0.0&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+!&#xD;
+!&#xD;
+int lo200&#xD;
+ip addr 200.1.1.30 255.255.255.255&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.134&#xD;
+encap dot 134&#xD;
+ip addr 134.1.1.30 255.255.255.0&#xD;
+no shu&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.138&#xD;
+encap dot 138&#xD;
+ip addr 138.1.1.30 255.255.255.0&#xD;
+no shu&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.139&#xD;
+encap dot 139&#xD;
+ip addr 139.1.1.30 255.255.255.0&#xD;
+no shu&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="SW4" type="SIMPLE" subtype="IOSv" location="261,181">
+        <extensions>
+            <entry key="static_serial_port_0" type="Integer">4014</entry>
+            <entry key="config" type="String">&#xD;
+en&#xD;
+conf t&#xD;
+!&#xD;
+!&#xD;
+ho SW4&#xD;
+&#xD;
+enable secret cisco&#xD;
+!&#xD;
+line vty 0 15&#xD;
+transport input telnet&#xD;
+&#xD;
+!&#xD;
+!&#xD;
+&#xD;
+int gi0/0&#xD;
+ip add dhcp&#xD;
+no shut&#xD;
+&#xD;
+int gi0/1&#xD;
+no shut&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int lo0&#xD;
+ip addr 40.1.1.40 255.0.0.0&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int lo200&#xD;
+ip addr 200.1.1.40 255.255.255.255&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+int gi0/1.134&#xD;
+enca dot 134&#xD;
+ip addr 134.1.1.40 255.255.255.0&#xD;
+no shu&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+!&#xD;
+ip route 40.0.0.0 255.0.0.0 null0&#xD;
+ip route 41.0.0.0 255.0.0.0 null0&#xD;
+ip route 42.0.0.0 255.0.0.0 null0&#xD;
+ip route 43.0.0.0 255.0.0.0 null0&#xD;
+ip route 44.0.0.0 255.0.0.0 null0&#xD;
+!&#xD;
+!&#xD;
+ip route 45.0.0.0 255.0.0.0 null0&#xD;
+ip route 46.0.0.0 255.0.0.0 null0&#xD;
+ip route 47.0.0.0 255.0.0.0 null0&#xD;
+ip route 48.0.0.0 255.0.0.0 null0&#xD;
+ip route 49.0.0.0 255.0.0.0 null0&#xD;
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="unmanagedswitch-1" type="SIMPLE" subtype="Unmanaged Switch" location="470,377">
+        <interface id="0" name="link1"/>
+        <interface id="1" name="link2"/>
+        <interface id="2" name="link3"/>
+        <interface id="3" name="link4"/>
+        <interface id="4" name="link5"/>
+        <interface id="5" name="link6"/>
+        <interface id="6" name="link7"/>
+        <interface id="7" name="link8"/>
+        <interface id="8" name="link9"/>
+        <interface id="9" name="link10"/>
+        <interface id="10" name="link11"/>
+        <interface id="11" name="link12"/>
+        <interface id="12" name="link13"/>
+        <interface id="13" name="link14"/>
+    </node>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[2]" src="/virl:topology/virl:node[2]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[3]" src="/virl:topology/virl:node[3]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[4]" src="/virl:topology/virl:node[4]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[5]" src="/virl:topology/virl:node[5]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[6]" src="/virl:topology/virl:node[6]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[7]" src="/virl:topology/virl:node[7]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[8]" src="/virl:topology/virl:node[8]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[9]" src="/virl:topology/virl:node[9]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[10]" src="/virl:topology/virl:node[10]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[11]" src="/virl:topology/virl:node[11]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[12]" src="/virl:topology/virl:node[12]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[13]" src="/virl:topology/virl:node[13]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[14]" src="/virl:topology/virl:node[14]/virl:interface[1]"/>
+</topology>
